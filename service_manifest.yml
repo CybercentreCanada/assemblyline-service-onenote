@@ -1,0 +1,24 @@
+name: OneNote
+version: $SERVICE_TAG
+description: >-
+  This service extracts attachements and metadata from Microsoft Onenote files.
+accepts: document/office/onenote
+rejects: empty|metadata/.*
+
+stage: CORE
+category: Static Analysis
+
+file_required: true
+timeout: 60
+disable_cache: false
+
+enabled: true
+is_external: false
+licence_count: 0
+
+uses_temp_submission_data: false
+
+docker_config:
+  image: ${REGISTRY}cccs/assemblyline-service-onenote:$SERVICE_TAG
+  cpu_cores: 1
+  ram_mb: 512
