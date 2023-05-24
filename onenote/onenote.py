@@ -24,11 +24,12 @@ class OneNote(ServiceBase):
         with open(request.file_path, "rb") as request_file:
             try:
                 document = OneDocment(request_file)
-            except (OSError, TypeError):
+            except (OSError, ValueError):
                 self.log.error(
                     f"pyOneNote was unable to open {request.sha256}: "
                     f"{traceback.format_exc(limit=2)}"
                 )
+                request.result = Result()
             else:
                 request.result = Result(
                     [
