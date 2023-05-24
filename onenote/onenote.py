@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import traceback
 from pathlib import Path
 
 from assemblyline_v4_service.common.base import ServiceBase, ServiceRequest
@@ -21,15 +22,22 @@ class OneNote(ServiceBase):
 
     def execute(self, request: ServiceRequest) -> None:
         with open(request.file_path, "rb") as request_file:
-            document = OneDocment(request_file)
-            request.result = Result(
-                [
-                    self._make_header_result(document.header),
-                    self._make_file_result(
-                        document.get_files(), Path(self.working_directory)
-                    ).as_result_section(request),
-                ]
-            )
+            try:
+                document = OneDocment(request_file)
+            except OSError:
+                self.log.error(
+                    f"pyOneNote was unable to open {request.sha256}: "
+                    f"{traceback.format_exc(limit=2)}"
+                )
+            else:
+                request.result = Result(
+                    [
+                        self._make_header_result(document.header),
+                        self._make_file_result(
+                            document.get_files(), Path(self.working_directory)
+                        ).as_result_section(request),
+                    ]
+                )
 
     @staticmethod
     def _make_header_result(header: Header) -> ResultOrderedKeyValueSection:
