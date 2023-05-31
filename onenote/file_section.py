@@ -32,9 +32,8 @@ class FileSection:
             request.add_extracted(*extracted_file)
         for supplementary_file in self.supplementary_files:
             request.add_supplementary(*supplementary_file)
+
         return ResultSection(
             self.title,
-            body="\n".join(
-                extracted_file.name for extracted_file in self.extracted_files
-            ),
+            body="\n".join(extracted_file.name for extracted_file in self.extracted_files),
         )

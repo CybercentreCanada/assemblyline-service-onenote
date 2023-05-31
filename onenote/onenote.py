@@ -25,27 +25,22 @@ class OneNote(ServiceBase):
             try:
                 document = OneDocment(request_file)
             except (OSError, NotImplementedError, ValueError):
-                self.log.error(
-                    f"pyOneNote was unable to open {request.sha256}: "
-                    f"{traceback.format_exc(limit=2)}"
-                )
+                self.log.error(f"pyOneNote was unable to open {request.sha256}: " f"{traceback.format_exc(limit=2)}")
                 request.result = Result()
             else:
                 request.result = Result(
                     [
                         self._make_header_result(document.header),
-                        self._make_file_result(
-                            document.get_files(), Path(self.working_directory)
-                        ).as_result_section(request),
+                        self._make_file_result(document.get_files(), Path(self.working_directory)).as_result_section(
+                            request
+                        ),
                     ]
                 )
 
     @staticmethod
     def _make_header_result(header: Header) -> ResultOrderedKeyValueSection:
         """Return a ResultSection with the header info"""
-        return ResultOrderedKeyValueSection(
-            "OneNote Document Header", body=header.convert_to_dictionary()
-        )
+        return ResultOrderedKeyValueSection("OneNote Document Header", body=header.convert_to_dictionary())
 
     @staticmethod
     def _make_file_result(files: dict, directory: Path) -> FileSection:
@@ -57,13 +52,9 @@ class OneNote(ServiceBase):
             if "content" not in file_node:
                 continue
             content = file_node["content"]
-            name = hashlib.sha256(content).hexdigest()[0:8] + file_node.get(
-                "extension", ""
-            )
+            name = hashlib.sha256(content).hexdigest()[0:8] + file_node.get("extension", "")
             path = directory / name
             with open(path, "wb") as f:
                 f.write(content)
-            section.extracted_files.append(
-                ExtractedFile(str(path), name, "Embedded file extracted from OneNote")
-            )
+            section.extracted_files.append(ExtractedFile(str(path), name, "Embedded file extracted from OneNote"))
         return section
