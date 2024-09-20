@@ -98,6 +98,7 @@ def test_make_header_result(header, section_body_data):
             [],
         )
     ],
+
 )
 def test_make_file_result(files, extracted, supplementary):
     """Test _make_file_result on dummy data extracted by OnenoteDocument."""
