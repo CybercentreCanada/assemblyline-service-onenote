@@ -1,7 +1,6 @@
 name: OneNote
 version: $SERVICE_TAG
-description: >-
-  This service extracts attachements and metadata from Microsoft Onenote files.
+description:  Assemblyline service for analyzing OneNote Documents.
 accepts: document/office/onenote
 rejects: empty|metadata/.*
 
