@@ -4,7 +4,7 @@
 [![Static Badge](https://img.shields.io/badge/github-assemblyline\_service\_onenote-blue?logo=github)](https://github.com/CybercentreCanada/assemblyline-service-onenote)
 [![License](https://img.shields.io/github/license/CybercentreCanada/assemblyline-service-onenote)](./LICENSE)
 
-# enenote Service
+# Oenenote Service
 
 Assemblyline service for analyzing OneNote Documents.
 
@@ -28,7 +28,7 @@ This is an Assemblyline service. It is designed to run as part of the Assemblyli
 If you would like to test this service locally, you can run the Docker image directly from the a shell:
 
     docker run \
-        --name AssemblylineServiceOnenote \
+        --name Onenote \
         --env SERVICE_API_HOST=http://`ip addr show docker0 | grep "inet " | awk '{print $2}' | cut -f1 -d"/"`:5003 \
         --network=host \
         /assemblyline-service-onenote
@@ -39,3 +39,40 @@ To add this service to your Assemblyline deployment, follow this
 ## Documentation
 
 General Assemblyline documentation can be found at: https://cybercentrecanada.github.io/assemblyline4_docs/
+
+
+# Service OneNote
+
+Service de Assemblyline pour analyser les documents OneNote.
+
+## Variantes et étiquettes d'image
+
+Les services d'Assemblyline sont construits à partir de l'image de base [Assemblyline service](https://hub.docker.com/r/cccs/assemblyline-v4-service-base),
+qui est basée sur Debian 11 avec Python 3.11.
+
+Les services d'Assemblyline utilisent les définitions d'étiquettes suivantes:
+
+| **Type d'étiquette** | **Description**                                                                                                |  **Exemple d'étiquette**   |
+| :------------------: | :------------------------------------------------------------------------------------------------------------- | :------------------------: |
+|   dernière version   | La version la plus récente (peut être instable).                                                               |          `latest`          |
+|      build_type      | Type de construction utilisé. `dev` est la dernière version instable. `stable` est la dernière version stable. |     `stable` ou `dev`      |
+|        série         | Détails de construction complets, comprenant la version et le type de build: `version.buildType`.              | `4.5.stable`, `4.5.1.dev3` |
+
+## Exécution de ce service
+
+Il s'agit d'un service d'Assemblyline. Il est optimisé pour fonctionner dans le cadre d'un déploiement d'Assemblyline.
+
+Si vous souhaitez tester ce service localement, vous pouvez exécuter l'image Docker directement à partir d'un terminal:
+
+    docker run \
+        --name Onenote \
+        --env SERVICE_API_HOST=http://`ip addr show docker0 | grep "inet " | awk '{print $2}' | cut -f1 -d"/"`:5003 \
+        --network=host \
+        cccs/assemblyline-service-onenote
+
+Pour ajouter ce service à votre déploiement d'Assemblyline, suivez ceci
+[guide](https://cybercentrecanada.github.io/assemblyline4_docs/fr/developer_manual/services/run_your_service/#add-the-container-to-your-deployment).
+
+## Documentation
+
+La documentation générale sur Assemblyline peut être consultée à l'adresse suivante: https://cybercentrecanada.github.io/assemblyline4_docs/
