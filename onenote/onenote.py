@@ -52,6 +52,8 @@ class OneNote(ServiceBase):
             if "content" not in file_node:
                 continue
             content = file_node["content"]
+            if isinstance(content, str):
+                content = content.encode("utf-8")
             name = hashlib.sha256(content).hexdigest()[0:8] + file_node.get("extension", "")
             path = directory / name
             with open(path, "wb") as f:
